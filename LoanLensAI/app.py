@@ -7,8 +7,13 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Load trained ML model
-model = joblib.load("loan_model.pkl")
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+model = joblib.load(
+    os.path.join(BASE_DIR, "loan_model.pkl")
+)
 
 # -----------------------------
 # DATABASE
