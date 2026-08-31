@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LoanLens AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #e5e9f0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .logo span {
+            color: #111827;
+        }
+
+        .badge {
+            background: #eaf2ff;
+            color: #2563eb;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 86%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .hero {
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #667085;
+            font-size: 16px;
+        }
+
+        /* GRID */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            margin-bottom: 5px;
+            font-size: 21px;
+        }
+
+        .card-description {
+            color: #667085;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #344054;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d0d5dd;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #2563eb;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .analyze-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* RESULT */
+
+        .result-box {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #eaf2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+        }
+
+        .result-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .confidence {
+            color: #667085;
+            font-size: 14px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .metric {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 12px;
+        }
+
+        .metric h3 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .metric p {
+            font-size: 12px;
+            color: #667085;
+        }
+
+        .risk {
+            color: #2563eb;
+        }
+
+        .factors {
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .factors h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .factor {
+            padding: 10px 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        /* DISCLAIMER */
+
+        .disclaimer {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #98a2b3;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* LOADING */
+
+        .loading {
+            display: none;
+            margin-top: 15px;
+            color: #667085;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        Loan<span>Lens</span> AI
+    </div>
+
+    <div class="badge">
+        AI-Powered Loan Analysis
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <div class="hero">
+        <h1>Loan Application Analyzer</h1>
+        <p>
+            Evaluate applicant information using machine learning
+            and receive an instant eligibility and risk assessment.
+        </p>
+    </div>
+
+
+    <div class="dashboard">
+
+        <!-- APPLICATION FORM -->
+
+        <div class="card">
+
+            <h2>Applicant Information</h2>
+
+            <p class="card-description">
+                Enter the applicant's financial and employment details.
+            </p>
+
+            <form id="loanForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input
+                            type="number"
+                            id="age"
+                            value="35"
+                            min="21"
+                            max="60"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Monthly Income (₹)</label>
+                        <input
+                            type="number"
+                            id="monthly_income"
+                            value="50000"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Credit Score</label>
+                        <input
+                            type="number"
+                            id="credit_score"
+                            value="720"
+                            min="300"
+                            max="850"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Existing Loan (₹)</label>
+                        <input
+                            type="number"
+                            id="existing_loan"
+                            value="100000"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Requested Loan (₹)</label>
+                        <input
+                            type="number"
+                            id="loan_amount"
+                            value="500000"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Loan Term</label>
+
+                        <select id="loan_term">
+
+                            <option value="12">12 Months</option>
+                            <option value="24">24 Months</option>
+                            <option value="36" selected>36 Months</option>
+                            <option value="48">48 Months</option>
+                            <option value="60">60 Months</option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Dependents</label>
+
+                        <input
+                            type="number"
+                            id="dependents"
+                            value="1"
+                            min="0"
+                            max="4"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Employment Experience</label>
+
+                        <input
+                            type="number"
+                            id="employment_years"
+                            value="5"
+                            min="0"
+                            max="20"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Employment Status</label>
+
+                        <select id="employment_status">
+
+                            <option value="Salaried">
+                                Salaried
+                            </option>
+
+                            <option value="Self-Employed">
+                                Self-Employed
+                            </option>
+
+                            <option value="Business">
+                                Business
+                            </option>
+
+                            <option value="Unemployed">
+                                Unemployed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Payment History</label>
+
+                        <select id="payment_history">
+
+                            <option value="Good">
+                                Good
+                            </option>
+
+                            <option value="Average">
+                                Average
+                            </option>
+
+                            <option value="Poor">
+                                Poor
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="analyze-btn"
+                >
+                    Analyze Application
+                </button>
+
+                <div
+                    class="loading"
+                    id="loading"
+                >
+                    🤖 LoanLens AI is analyzing the application...
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="card">
+
+            <h2>AI Assessment</h2>
+
+            <p class="card-description">
+                Machine-learning prediction and risk analysis.
+            </p>
+
+
+            <div class="result-box">
+
+                <div class="result-icon" id="resultIcon">
+                    🤖
+                </div>
+
+                <div
+                    class="result-title"
+                    id="eligibility"
+                >
+                    Awaiting Analysis
+                </div>
+
+                <div
+                    class="confidence"
+                    id="confidence"
+                >
+                    Submit an application to generate results.
+                </div>
+
+
+                <div class="metrics">
+
+                    <div class="metric">
+
+                        <h3
+                            class="risk"
+                            id="riskLevel"
+                        >
+                            —
+                        </h3>
+
+                        <p>
+                            Risk Level
+                        </p>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <h3 id="riskScore">
+                            —
+                        </h3>
+
+                        <p>
+                            Risk Score
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="factors">
+
+                    <h3>
+                        Key Factors
+                    </h3>
+
+                    <div id="factorsList">
+
+                        <div class="factor">
+                            Results will appear here after analysis.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="disclaimer">
+
+        LoanLens AI is a prototype decision-support system
+        trained on synthetic data. Predictions should not be
+        considered a final lending decision.
+
+    </div>
+
+</div>
+
+
+<script>
+
+const form = document.getElementById("loanForm");
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const loading = document.getElementById("loading");
+
+    loading.style.display = "block";
+
+
+    const applicantData = {
+
+        age: document.getElementById("age").value,
+
+        monthly_income:
+            document.getElementById("monthly_income").value,
+
+        credit_score:
+            document.getElementById("credit_score").value,
+
+        existing_loan:
+            document.getElementById("existing_loan").value,
+
+        loan_amount:
+            document.getElementById("loan_amount").value,
+
+        loan_term:
+            document.getElementById("loan_term").value,
+
+        dependents:
+            document.getElementById("dependents").value,
+
+        employment_status:
+            document.getElementById("employment_status").value,
+
+        employment_years:
+            document.getElementById("employment_years").value,
+
+        payment_history:
+            document.getElementById("payment_history").value
+    };
+
+
+    try {
+
+        const response = await fetch("/predict", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(applicantData)
+
+        });
+
+
+        const result = await response.json();
+
+
+        if (result.error) {
+
+            alert(result.error);
+
+            return;
+
+        }
+
+
+        document.getElementById("eligibility").textContent =
+            result.eligibility;
+
+
+        document.getElementById("confidence").textContent =
+            "Model confidence: " +
+            result.confidence +
+            "%";
+
+
+        document.getElementById("riskLevel").textContent =
+            result.risk_level;
+
+
+        document.getElementById("riskScore").textContent =
+            result.risk_score + "/100";
+
+
+        const factorsList =
+            document.getElementById("factorsList");
+
+        factorsList.innerHTML = "";
+
+
+        result.factors.forEach(function(factor) {
+
+            const div = document.createElement("div");
+
+            div.className = "factor";
+
+            div.textContent = "✓ " + factor;
+
+            factorsList.appendChild(div);
+
+        });
+
+
+        if (result.eligibility === "Likely Eligible") {
+
+            document.getElementById("resultIcon").textContent = "✓";
+
+        } else {
+
+            document.getElementById("resultIcon").textContent = "⚠";
+
+        }
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Something went wrong. Please make sure the Flask server is running."
+        );
+
+    }
+
+    finally {
+
+        loading.style.display = "none";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

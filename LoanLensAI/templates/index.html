@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LoanLens AI | Smart Loan Intelligence</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e6e9ef;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-main {
+            color: #2563eb;
+        }
+
+        .logo-ai {
+            color: #111827;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .status {
+            font-size: 13px;
+            color: #475467;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: 38px auto;
+        }
+
+        .hero {
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #667085;
+            font-size: 15px;
+        }
+
+        /* DASHBOARD */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e6e9ef;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(16, 24, 40, 0.05);
+        }
+
+        .card-header {
+            margin-bottom: 24px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .card-header p {
+            color: #667085;
+            font-size: 13px;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #344054;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            height: 44px;
+            border: 1px solid #d0d5dd;
+            border-radius: 9px;
+            padding: 0 12px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            height: 48px;
+            margin-top: 25px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .analyze-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 13px;
+            color: #667085;
+            font-size: 13px;
+        }
+
+        /* RESULT */
+
+        .assessment {
+            text-align: center;
+        }
+
+        .ai-circle {
+            width: 76px;
+            height: 76px;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 15px;
+
+            font-size: 32px;
+        }
+
+        .eligibility {
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .confidence {
+            font-size: 13px;
+            color: #667085;
+        }
+
+        /* SCORE */
+
+        .score-section {
+            margin-top: 27px;
+            text-align: left;
+        }
+
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 9px;
+        }
+
+        .score-header span:first-child {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .score-value {
+            font-weight: 800;
+        }
+
+        .progress {
+            height: 10px;
+            background: #edf0f5;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #2563eb;
+            border-radius: 10px;
+            transition: width 0.7s ease;
+        }
+
+        /* METRICS */
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .metric {
+            padding: 17px;
+            background: #f8fafc;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .metric-value {
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #667085;
+        }
+
+        /* FACTORS */
+
+        .factors {
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .factors h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .factor {
+            display: flex;
+            align-items: center;
+
+            padding: 11px 12px;
+            margin-bottom: 8px;
+
+            background: #f8fafc;
+            border-radius: 9px;
+
+            font-size: 13px;
+            color: #344054;
+        }
+
+        .factor-icon {
+            margin-right: 8px;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        /* INSIGHT */
+
+        .insight {
+            margin-top: 20px;
+            padding: 14px;
+
+            background: #f5f9ff;
+            border: 1px solid #dbeafe;
+
+            border-radius: 10px;
+
+            text-align: left;
+        }
+
+        .insight-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #2563eb;
+            margin-bottom: 5px;
+        }
+
+        .insight-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #475467;
+        }
+
+        /* DISCLAIMER */
+
+        .disclaimer {
+            margin-top: 22px;
+
+            text-align: center;
+
+            font-size: 10px;
+            line-height: 1.5;
+
+            color: #98a2b3;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 850px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+
+        <span class="logo-main">LoanLens</span>
+        <span class="logo-ai"> AI</span>
+
+    </div>
+
+
+    <div class="nav-right">
+
+        <div class="status-dot"></div>
+
+        <div class="status">
+            AI System Online
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<div class="container">
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>
+            Smart Loan Intelligence
+        </h1>
+
+        <p>
+            Analyze applicant financial data and generate
+            AI-powered eligibility and risk insights.
+        </p>
+
+    </div>
+
+
+
+    <div class="dashboard">
+
+
+        <!-- APPLICATION CARD -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Applicant Profile
+                </h2>
+
+                <p>
+                    Enter financial and employment information
+                </p>
+
+            </div>
+
+
+            <form id="loanForm">
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            AGE
+                        </label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            value="35"
+                            min="21"
+                            max="60"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            MONTHLY INCOME (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="monthly_income"
+                            value="50000"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            CREDIT SCORE
+                        </label>
+
+                        <input
+                            type="number"
+                            id="credit_score"
+                            value="720"
+                            min="300"
+                            max="850"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            EXISTING LOAN (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="existing_loan"
+                            value="100000"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            REQUESTED LOAN (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="loan_amount"
+                            value="500000"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            LOAN TERM
+                        </label>
+
+                        <select id="loan_term">
+
+                            <option value="12">
+                                12 Months
+                            </option>
+
+                            <option value="24">
+                                24 Months
+                            </option>
+
+                            <option value="36" selected>
+                                36 Months
+                            </option>
+
+                            <option value="48">
+                                48 Months
+                            </option>
+
+                            <option value="60">
+                                60 Months
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            DEPENDENTS
+                        </label>
+
+                        <input
+                            type="number"
+                            id="dependents"
+                            value="1"
+                            min="0"
+                            max="10"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            EMPLOYMENT EXPERIENCE
+                        </label>
+
+                        <input
+                            type="number"
+                            id="employment_years"
+                            value="5"
+                            min="0"
+                            max="40"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            EMPLOYMENT STATUS
+                        </label>
+
+                        <select id="employment_status">
+
+                            <option value="Salaried">
+                                Salaried
+                            </option>
+
+                            <option value="Self-Employed">
+                                Self-Employed
+                            </option>
+
+                            <option value="Business">
+                                Business
+                            </option>
+
+                            <option value="Unemployed">
+                                Unemployed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            PAYMENT HISTORY
+                        </label>
+
+                        <select id="payment_history">
+
+                            <option value="Good">
+                                Good
+                            </option>
+
+                            <option value="Average">
+                                Average
+                            </option>
+
+                            <option value="Poor">
+                                Poor
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <button
+                    class="analyze-btn"
+                    type="submit"
+                >
+
+                    Analyze Application →
+
+                </button>
+
+
+                <div
+                    class="loading"
+                    id="loading"
+                >
+
+                    🤖 LoanLens AI is analyzing...
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- AI ASSESSMENT -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    AI Assessment
+                </h2>
+
+                <p>
+                    Machine-learning powered analysis
+                </p>
+
+            </div>
+
+
+
+            <div class="assessment">
+
+
+                <div
+                    class="ai-circle"
+                    id="resultIcon"
+                >
+
+                    🤖
+
+                </div>
+
+
+
+                <div
+                    class="eligibility"
+                    id="eligibility"
+                >
+
+                    Awaiting Analysis
+
+                </div>
+
+
+
+                <div
+                    class="confidence"
+                    id="confidence"
+                >
+
+                    Submit an application to generate insights.
+
+                </div>
+
+
+
+                <!-- RISK SCORE -->
+
+                <div class="score-section">
+
+                    <div class="score-header">
+
+                        <span>
+                            Risk Score
+                        </span>
+
+                        <span
+                            class="score-value"
+                            id="riskScore"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-bar"
+                            id="riskBar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- METRICS -->
+
+                <div class="metrics">
+
+
+                    <div class="metric">
+
+                        <div
+                            class="metric-value"
+                            id="riskLevel"
+                        >
+                            —
+                        </div>
+
+                        <div class="metric-label">
+                            RISK LEVEL
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="metric">
+
+                        <div
+                            class="metric-value"
+                            id="modelConfidence"
+                        >
+                            —
+                        </div>
+
+                        <div class="metric-label">
+                            MODEL CONFIDENCE
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+<!-- FINANCIAL HEALTH -->
+
+<div style="margin-top:25px; text-align:left;">
+
+    <h3 style="font-size:15px; margin-bottom:14px;">
+        Financial Health
+    </h3>
+
+
+    <!-- CREDIT HEALTH -->
+
+    <div style="margin-bottom:14px;">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px;
+            font-size:12px;
+        ">
+
+            <span>Credit Health</span>
+
+            <strong id="creditHealth">
+                —
+            </strong>
+
+        </div>
+
+
+        <div style="
+            height:8px;
+            background:#edf0f5;
+            border-radius:10px;
+            overflow:hidden;
+        ">
+
+            <div
+                id="creditBar"
+                style="
+                    height:100%;
+                    width:0%;
+                    background:#2563eb;
+                    border-radius:10px;
+                    transition:width .6s ease;
+                "
+            ></div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- DEBT BURDEN -->
+
+    <div style="margin-bottom:14px;">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px;
+            font-size:12px;
+        ">
+
+            <span>Debt Burden Indicator</span>
+
+            <strong id="debtBurden">
+                —
+            </strong>
+
+        </div>
+
+
+        <div style="
+            height:8px;
+            background:#edf0f5;
+            border-radius:10px;
+            overflow:hidden;
+        ">
+
+            <div
+                id="debtBar"
+                style="
+                    height:100%;
+                    width:0%;
+                    background:#2563eb;
+                    border-radius:10px;
+                    transition:width .6s ease;
+                "
+            ></div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- REPAYMENT HEALTH -->
+
+    <div>
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px;
+            font-size:12px;
+        ">
+
+            <span>Repayment Health</span>
+
+            <strong id="repaymentHealth">
+                —
+            </strong>
+
+        </div>
+
+
+        <div style="
+            height:8px;
+            background:#edf0f5;
+            border-radius:10px;
+            overflow:hidden;
+        ">
+
+            <div
+                id="repaymentBar"
+                style="
+                    height:100%;
+                    width:0%;
+                    background:#2563eb;
+                    border-radius:10px;
+                    transition:width .6s ease;
+                "
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+                <!-- FACTORS -->
+
+                <div class="factors">
+
+                    <h3>
+                        Key Factors
+                    </h3>
+
+
+                    <div id="factorsList">
+
+                        <div class="factor">
+
+                            <span class="factor-icon">
+                                •
+                            </span>
+
+                            Results will appear after analysis.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- INSIGHT -->
+<!-- REPORT BUTTON -->
+
+<button
+    id="reportBtn"
+    onclick="generateReport()"
+    style="
+        width:100%;
+        margin-top:18px;
+        height:46px;
+        border:none;
+        border-radius:10px;
+        background:#111827;
+        color:white;
+        font-size:14px;
+        font-weight:700;
+        cursor:pointer;
+    "
+>
+    📄 Generate Assessment Report
+</button>
+                <div class="insight">
+
+                    <div class="insight-title">
+                        AI INSIGHT
+                    </div>
+
+                    <div
+                        class="insight-text"
+                        id="insightText"
+                    >
+
+                        LoanLens AI evaluates credit,
+                        income, debt and repayment history
+                        to generate a decision-support insight.
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+<!-- PREDICTION HISTORY -->
+
+<div class="card" style="margin-top: 25px;">
+
+    <div class="card-header">
+
+        <h2>Prediction History</h2>
+
+        <p>
+            Recent loan assessments analyzed by LoanLens AI
+        </p>
+
+    </div>
+
+    <div style="overflow-x: auto;">
+
+        <table
+            style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:13px;
+            "
+        >
+
+            <thead>
+
+                <tr style="text-align:left; border-bottom:1px solid #e6e9ef;">
+
+                    <th style="padding:12px;">Date</th>
+
+                    <th style="padding:12px;">Income</th>
+
+                    <th style="padding:12px;">Loan</th>
+
+                    <th style="padding:12px;">Credit</th>
+
+                    <th style="padding:12px;">Result</th>
+
+                    <th style="padding:12px;">Risk</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="historyBody">
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        style="padding:20px;text-align:center;color:#98a2b3;"
+                    >
+                        Loading prediction history...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+    <div class="disclaimer">
+
+        LoanLens AI is a hackathon prototype trained using
+        synthetic data. Predictions are for decision-support
+        demonstration only and should not be treated as a
+        final lending decision.
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+const form = document.getElementById("loanForm");
+
+
+form.addEventListener("submit", async function(event) {
+
+
+    event.preventDefault();
+
+
+    const loading =
+        document.getElementById("loading");
+
+
+    loading.style.display = "block";
+
+
+    const applicantData = {
+
+
+        age:
+            document.getElementById("age").value,
+
+
+        monthly_income:
+            document.getElementById("monthly_income").value,
+
+
+        credit_score:
+            document.getElementById("credit_score").value,
+
+
+        existing_loan:
+            document.getElementById("existing_loan").value,
+
+
+        loan_amount:
+            document.getElementById("loan_amount").value,
+
+
+        loan_term:
+            document.getElementById("loan_term").value,
+
+
+        dependents:
+            document.getElementById("dependents").value,
+
+
+        employment_status:
+            document.getElementById("employment_status").value,
+
+
+        employment_years:
+            document.getElementById("employment_years").value,
+
+
+        payment_history:
+            document.getElementById("payment_history").value
+
+    };
+
+
+
+    try {
+
+
+        const response = await fetch(
+            "/predict",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(applicantData)
+
+            }
+        );
+
+
+        const result = await response.json();
+
+
+
+        if (result.error) {
+
+            alert(result.error);
+
+            return;
+
+        }
+
+
+
+        /* ELIGIBILITY */
+
+        document.getElementById(
+            "eligibility"
+        ).textContent =
+            result.eligibility;
+
+
+
+        /* CONFIDENCE */
+
+        document.getElementById(
+            "confidence"
+        ).textContent =
+            "Model confidence: " +
+            result.confidence +
+            "%";
+
+
+
+        document.getElementById(
+            "modelConfidence"
+        ).textContent =
+            result.confidence + "%";
+
+
+
+        /* RISK */
+
+        document.getElementById(
+            "riskLevel"
+        ).textContent =
+            result.risk_level;
+
+
+
+        document.getElementById(
+            "riskScore"
+        ).textContent =
+            result.risk_score + "/100";
+
+
+
+        /* RISK BAR */
+
+        document.getElementById(
+            "riskBar"
+        ).style.width =
+            result.risk_score + "%";
+
+
+
+        /* ICON */
+
+        if (
+            result.eligibility ===
+            "Likely Eligible"
+        ) {
+
+            document.getElementById(
+                "resultIcon"
+            ).textContent = "✓";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "resultIcon"
+            ).textContent = "⚠";
+
+        }
+
+
+
+        /* FACTORS */
+
+        const factorsList =
+            document.getElementById(
+                "factorsList"
+            );
+
+
+        factorsList.innerHTML = "";
+
+
+
+        result.factors.forEach(
+            function(factor) {
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "factor";
+
+
+                div.innerHTML =
+                    '<span class="factor-icon">✓</span>' +
+                    factor;
+
+
+                factorsList.appendChild(
+                    div
+                );
+
+            }
+        );
+
+
+// -----------------------------
+// FINANCIAL HEALTH INDICATORS
+// -----------------------------
+
+const creditScore =
+    Number(applicantData.credit_score);
+
+const income =
+    Number(applicantData.monthly_income);
+
+const existingLoan =
+    Number(applicantData.existing_loan);
+
+const paymentHistory =
+    applicantData.payment_history;
+
+
+// CREDIT HEALTH
+
+let creditHealth;
+let creditPercentage;
+
+
+if (creditScore >= 750) {
+
+    creditHealth = "Excellent";
+    creditPercentage = 100;
+
+}
+
+else if (creditScore >= 700) {
+
+    creditHealth = "Strong";
+    creditPercentage = 85;
+
+}
+
+else if (creditScore >= 650) {
+
+    creditHealth = "Fair";
+    creditPercentage = 65;
+
+}
+
+else if (creditScore >= 600) {
+
+    creditHealth = "Weak";
+    creditPercentage = 45;
+
+}
+
+else {
+
+    creditHealth = "Poor";
+    creditPercentage = 25;
+
+}
+
+
+document.getElementById(
+    "creditHealth"
+).textContent = creditHealth;
+
+
+document.getElementById(
+    "creditBar"
+).style.width =
+    creditPercentage + "%";
+
+
+
+// DEBT BURDEN
+
+const totalDebtExposure =
+    existingLoan + Number(applicantData.loan_amount);
+
+const debtRatio =
+    (totalDebtExposure / (income * 12)) * 100;
+
+
+let debtLabel;
+let debtPercentage;
+
+
+if (debtRatio < 20) {
+
+    debtLabel = "Low";
+    debtPercentage = 25;
+
+}
+
+else if (debtRatio < 40) {
+
+    debtLabel = "Moderate";
+    debtPercentage = 50;
+
+}
+
+else if (debtRatio < 60) {
+
+    debtLabel = "High";
+    debtPercentage = 75;
+
+}
+
+else {
+
+    debtLabel = "Very High";
+    debtPercentage = 100;
+
+}
+
+
+document.getElementById(
+    "debtBurden"
+).textContent = debtLabel;
+
+
+document.getElementById(
+    "debtBar"
+).style.width =
+    debtPercentage + "%";
+
+
+
+// REPAYMENT HEALTH
+
+let repaymentHealth;
+let repaymentPercentage;
+
+
+if (paymentHistory === "Good") {
+
+    repaymentHealth = "Strong";
+    repaymentPercentage = 100;
+
+}
+
+else if (paymentHistory === "Average") {
+
+    repaymentHealth = "Moderate";
+    repaymentPercentage = 60;
+
+}
+
+else {
+
+    repaymentHealth = "Poor";
+    repaymentPercentage = 25;
+
+}
+
+
+document.getElementById(
+    "repaymentHealth"
+).textContent =
+    repaymentHealth;
+
+
+document.getElementById(
+    "repaymentBar"
+).style.width =
+    repaymentPercentage + "%";
+        /* AI INSIGHT */
+
+        let insight = "";
+
+
+        if (
+            result.risk_level === "Low"
+        ) {
+
+            insight =
+                "The applicant shows relatively strong financial indicators. Credit profile, repayment history and debt burden appear supportive of a lower-risk assessment.";
+
+        }
+
+        else if (
+            result.risk_level === "Medium"
+        ) {
+
+            insight =
+                "The applicant presents a moderate level of financial risk. Additional review of debt obligations, income stability and repayment history may be appropriate.";
+
+        }
+
+        else {
+
+            insight =
+                "The applicant shows elevated risk indicators. Lower credit performance, repayment behavior or debt burden may require additional financial review.";
+
+        }
+
+
+
+        document.getElementById(
+            "insightText"
+        ).textContent =
+            insight;
+
+
+    }
+
+
+    catch (error) {
+
+
+        alert(
+            "Unable to connect to LoanLens AI. Make sure the Flask server is running."
+        );
+
+
+    }
+
+
+    finally {
+
+        loading.style.display = "none";
+
+    }
+
+
+});
+
+// -----------------------------
+// LOAD PREDICTION HISTORY
+// -----------------------------
+
+async function loadHistory() {
+
+    try {
+
+        const response = await fetch("/history");
+
+        const records = await response.json();
+
+        const historyBody =
+            document.getElementById("historyBody");
+
+
+        historyBody.innerHTML = "";
+
+
+        if (records.length === 0) {
+
+            historyBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        style="
+                            padding:20px;
+                            text-align:center;
+                            color:#98a2b3;
+                        "
+                    >
+
+                        No predictions yet.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        records.forEach(function(record) {
+
+            const row =
+                document.createElement("tr");
+
+
+            row.style.borderBottom =
+                "1px solid #f0f2f5";
+
+
+            row.innerHTML = `
+
+                <td style="padding:12px;">
+                    ${record.timestamp}
+                </td>
+
+                <td style="padding:12px;">
+                    ₹${Number(
+                        record.monthly_income
+                    ).toLocaleString("en-IN")}
+                </td>
+
+                <td style="padding:12px;">
+                    ₹${Number(
+                        record.loan_amount
+                    ).toLocaleString("en-IN")}
+                </td>
+
+                <td style="padding:12px;">
+                    ${record.credit_score}
+                </td>
+
+                <td style="padding:12px;">
+                    ${record.eligibility}
+                </td>
+
+                <td style="padding:12px;">
+                    ${record.risk_level}
+                </td>
+
+            `;
+
+
+            historyBody.appendChild(row);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "History error:",
+            error
+        );
+
+    }
+
+}
+
+
+// Load history when page opens
+loadHistory();
+// -----------------------------
+// GENERATE ASSESSMENT REPORT
+// -----------------------------
+
+function generateReport() {
+
+    const eligibility =
+        document.getElementById("eligibility").textContent;
+
+    if (eligibility === "Awaiting Analysis") {
+        alert("Please analyze an application first.");
+        return;
+    }
+
+    const report = `
+LOANLENS AI
+SMART LOAN INTELLIGENCE
+========================================
+
+LOAN ASSESSMENT REPORT
+Generated: ${new Date().toLocaleString()}
+
+APPLICANT PROFILE
+----------------------------------------
+Age: ${document.getElementById("age").value}
+Monthly Income: ₹${Number(
+        document.getElementById("monthly_income").value
+    ).toLocaleString("en-IN")}
+
+Credit Score: ${document.getElementById("credit_score").value}
+
+Existing Loan: ₹${Number(
+        document.getElementById("existing_loan").value
+    ).toLocaleString("en-IN")}
+
+Dependents: ${document.getElementById("dependents").value}
+
+Employment Status:
+${document.getElementById("employment_status").value}
+
+Employment Experience:
+${document.getElementById("employment_years").value} years
+
+Payment History:
+${document.getElementById("payment_history").value}
+
+
+LOAN DETAILS
+----------------------------------------
+Requested Amount: ₹${Number(
+        document.getElementById("loan_amount").value
+    ).toLocaleString("en-IN")}
+
+Loan Term:
+${document.getElementById("loan_term").value} months
+
+
+AI ASSESSMENT
+----------------------------------------
+Eligibility: ${eligibility}
+
+Risk Level:
+${document.getElementById("riskLevel").textContent}
+
+Risk Score:
+${document.getElementById("riskScore").textContent}
+
+Model Confidence:
+${document.getElementById("modelConfidence").textContent}
+
+
+FINANCIAL HEALTH
+----------------------------------------
+Credit Health:
+${document.getElementById("creditHealth").textContent}
+
+Debt Burden:
+${document.getElementById("debtBurden").textContent}
+
+Repayment Health:
+${document.getElementById("repaymentHealth").textContent}
+
+
+KEY FACTORS
+----------------------------------------
+${Array.from(
+    document.querySelectorAll("#factorsList .factor")
+)
+.map(factor => "• " + factor.innerText)
+.join("\n")}
+
+
+AI INSIGHT
+----------------------------------------
+${document.getElementById("insightText").textContent}
+
+
+========================================
+LoanLens AI is a hackathon prototype
+trained using synthetic data.
+
+Predictions are intended for
+decision-support demonstration only
+and should not be treated as a final
+lending decision.
+========================================
+`;
+
+    const blob = new Blob(
+        [report],
+        { type: "text/plain" }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        "LoanLens_AI_Assessment_Report.txt";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+}
+</script>
+
+
+</body>
+
+</html>
